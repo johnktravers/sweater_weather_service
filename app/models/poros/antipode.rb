@@ -22,9 +22,20 @@ class Antipode
   private
 
   def find_city_name(info)
-    info[:results].find do |address_info|
-      address_types = address_info[:address_components][0][:types]
-      address_types.include?('locality') || address_types.include?('administrative_area_level_1')
-    end[:formatted_address]
+    if antipode_exists?(info)
+      address = info[:results].find { |address_info| city_address?(address_info) }
+      address[:formatted_address]
+    end
+  end
+
+  def antipode_exists?(info)
+    return false if !info[:results][0]
+    address_comps = info[:results][0][:address_components]
+    !address_comps[0][:types].include?('natural_feature')
+  end
+
+  def city_address?(address_info)
+    address_types = address_info[:address_components][0][:types]
+    address_types.include?('locality') || address_types.include?('administrative_area_level_1')
   end
 end
