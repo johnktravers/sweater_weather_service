@@ -36,4 +36,19 @@ RSpec.describe 'Antipode API Endpoint' do
     forecast_keys = [:summary, :current_temp]
     expect(antipode_info[:attributes][:forecast].keys).to eq(forecast_keys)
   end
+
+  it 'returns a JSON error message if the antipode city does not exist' do
+    get '/api/v1/antipode?location=denver, co', headers: {
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json'
+    }
+
+    expect(response.status).to eq(404)
+
+    error = JSON.parse(response.body, symbolize_names: true)[:errors][0]
+
+    message = 'The given location does not have an existing antipode. Please try another location.'
+    expect(error[:title]).to eq(message)
+    expect(error[:status]).to eq('404 Not Found')
+  end
 end
