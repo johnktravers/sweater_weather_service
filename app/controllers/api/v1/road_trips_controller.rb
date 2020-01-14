@@ -6,7 +6,7 @@ class Api::V1::RoadTripsController < ApplicationController
       serialized_road_trip = RoadTripSerializer.new(road_trip)
       render json: serialized_road_trip, status: 200
     else
-      render json: road_trip_error, status: 400
+      render json: unauthorized_error, status: 401
     end
   end
 
@@ -16,7 +16,11 @@ class Api::V1::RoadTripsController < ApplicationController
     params.require(:road_trip).permit(:origin, :destination)
   end
 
-  def road_trip_error
-    { errors: [] }.to_json
+  def unauthorized_error
+    { errors: [{
+        status: '401 Unauthorized',
+        title: 'Given API key is invalid. Please try again'
+      }]
+    }.to_json
   end
 end
