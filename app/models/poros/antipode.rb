@@ -16,7 +16,8 @@ class Antipode
   end
 
   def set_forecast(info)
-    @forecast = Forecast.new(info, location_name)
+    forecast = Forecast.new(info, location_name)
+    @forecast = AntipodeForecast.new(forecast)
   end
 
   private
