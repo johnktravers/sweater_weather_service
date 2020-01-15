@@ -27,13 +27,13 @@ RSpec.describe 'Road Trip API Endpoint' do
     road_trip_info = JSON.parse(response.body, symbolize_names: true)[:data]
 
     expect(road_trip_info[:type]).to eq('road_trip')
-    expect(road_trip_info[:id]).to eq('1')
     expect(road_trip_info[:attributes][:origin]).to eq('Denver, CO, USA')
     expect(road_trip_info[:attributes][:destination]).to eq('Pueblo, CO, USA')
     expect(road_trip_info[:attributes][:travel_time]).to eq('1 hour 48 mins')
 
-    road_trip_keys = [:local_time, :temperature, :summary]
-    expect(road_trip_info[:attributes][:arrival_forecast].keys).to eq(road_trip_keys)
+    expect(road_trip_info[:attributes][:arrival_forecast][:local_time]).to eq('11:00 PM, 01/14')
+    expect(road_trip_info[:attributes][:arrival_forecast][:temperature]).to eq('36°')
+    expect(road_trip_info[:attributes][:arrival_forecast][:summary]).to eq('Clear')
   end
 
   it 'displays an error if the api key is invalid' do
