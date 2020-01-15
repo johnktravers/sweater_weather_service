@@ -1,8 +1,6 @@
 class Forecast
   attr_reader :id,
               :address,
-              :latitude,
-              :longitude,
               :timezone,
               :current_weather,
               :hourly_weather,
@@ -11,11 +9,9 @@ class Forecast
   def initialize(info, address)
     @id = rand(10000)
     @address = address
-    @latitude = info[:latitude]
-    @longitude = info[:longitude]
     @timezone = TZInfo::Timezone.get(info[:timezone])
     @current_weather = CurrentWeather.new(info[:currently], timezone)
-    @hourly_weather = create_hourly_weather(info[:hourly][:data][0..24], timezone)
+    @hourly_weather = create_hourly_weather(info[:hourly][:data][0..23], timezone)
     @daily_weather = create_daily_weather(info[:daily][:data], timezone)
   end
 

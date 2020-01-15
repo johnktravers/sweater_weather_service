@@ -22,7 +22,7 @@ RSpec.describe 'Forecast API Endpoint' do
 
     hourly_keys = [:time, :summary, :icon, :temp]
     expect(forecast_info[:attributes][:hourly_weather][0].keys).to eq(hourly_keys)
-    expect(forecast_info[:attributes][:hourly_weather].length).to eq(25)
+    expect(forecast_info[:attributes][:hourly_weather].length).to eq(24)
 
     daily_keys = [:time, :summary, :icon, :temp_high, :temp_low, :precip_probability, :precip_type]
     expect(forecast_info[:attributes][:daily_weather][0].keys).to eq(daily_keys)
