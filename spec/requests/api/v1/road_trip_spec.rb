@@ -27,13 +27,13 @@ RSpec.describe 'Road Trip API Endpoint' do
     road_trip_info = JSON.parse(response.body, symbolize_names: true)[:data]
 
     expect(road_trip_info[:type]).to eq('road_trip')
-    expect(road_trip_info[:id]).to eq('1')
     expect(road_trip_info[:attributes][:origin]).to eq('Denver, CO, USA')
     expect(road_trip_info[:attributes][:destination]).to eq('Pueblo, CO, USA')
     expect(road_trip_info[:attributes][:travel_time]).to eq('1 hour 48 mins')
 
-    road_trip_keys = [:local_time, :temperature, :summary]
-    expect(road_trip_info[:attributes][:arrival_forecast].keys).to eq(road_trip_keys)
+    expect(road_trip_info[:attributes][:arrival_forecast][:local_time]).to eq('11:00 PM, 01/14')
+    expect(road_trip_info[:attributes][:arrival_forecast][:temperature]).to eq('36°')
+    expect(road_trip_info[:attributes][:arrival_forecast][:summary]).to eq('Clear')
   end
 
   it 'displays an error if the api key is invalid' do
@@ -71,5 +71,26 @@ RSpec.describe 'Road Trip API Endpoint' do
 
     expect(error[:status]).to eq('401 Unauthorized')
     expect(error[:title]).to eq('Given API key is invalid. Please try again')
+  end
+
+  it 'displays an error if origin or destination are not found' do
+    stub_maps_api('denver, co', 'skajgbadkfkh', 'no_trip.json')
+
+    req_body = {
+      'origin' => 'denver, co',
+      'destination' => 'skajgbadkfkh',
+      'api_key' => @user.api_key
+    }.to_json
+    post '/api/v1/road_trip', params: req_body, headers: {
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json'
+    }
+
+    expect(response.status).to eq(404)
+
+    error = JSON.parse(response.body, symbolize_names: true)[:errors][0]
+
+    expect(error[:status]).to eq('404 Not Found')
+    expect(error[:title]).to eq('Origin or destination location not found. Please try again')
   end
 end

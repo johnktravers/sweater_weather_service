@@ -7,12 +7,13 @@ RSpec.describe GoogleMapsService, type: :service do
     service = GoogleMapsService.new
     geocode_info = service.get_directions_info('Denver, CO', 'Pueblo, CO')
 
-    expect(geocode_info[:distance][:text]).to eq('114 mi')
-    expect(geocode_info[:duration][:text]).to eq('1 hour 48 mins')
-    expect(geocode_info[:duration][:value]).to eq(6476)
+    expect(geocode_info[:legs][0][:distance][:text]).to eq('114 mi')
+    expect(geocode_info[:legs][0][:duration][:text]).to eq('1 hour 48 mins')
+    expect(geocode_info[:legs][0][:duration][:value]).to eq(6476)
 
-    expect(geocode_info[:start_address]).to eq('Denver, CO, USA')
-    expect(geocode_info[:end_address]).to eq('Pueblo, CO, USA')
-    expect(geocode_info[:end_location]).to eq({lat: 38.2542053, lng: -104.6087488})
+    expect(geocode_info[:legs][0][:start_address]).to eq('Denver, CO, USA')
+    expect(geocode_info[:legs][0][:end_address]).to eq('Pueblo, CO, USA')
+    expect(geocode_info[:legs][0][:end_location])
+      .to eq({lat: 38.2542053, lng: -104.6087488})
   end
 end
