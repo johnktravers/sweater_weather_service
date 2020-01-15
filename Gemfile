@@ -33,6 +33,7 @@ gem 'faraday'
 gem 'fast_jsonapi'
 gem 'tzinfo'
 gem 'tzinfo-data'
+gem 'webmock'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

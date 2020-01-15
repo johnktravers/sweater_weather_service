@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe GoogleGeocodingService, type: :service do
   it 'can retrieve latitude and longitude from an address' do
+    stub_geocoding_api('Denver, CO', 'denver_geocode.json')
+
     service = GoogleGeocodingService.new
     geocode_info = service.get_geocode_info('Denver, CO')
 
