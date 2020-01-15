@@ -5,8 +5,8 @@ class CurrentWeather < Weather
     super
     @temp = info[:temperature]
     @apparent_temp = info[:apparentTemperature]
-    @humidity = info[:humidity]
-    @visibility = info[:visibility]
+    @humidity = (info[:humidity] * 100).to_s + '%'
+    @visibility = info[:visibility].to_s + ' miles'
     @uv_index = get_uv_rating(info[:uvIndex])
   end
 
