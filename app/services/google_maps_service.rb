@@ -6,6 +6,6 @@ class GoogleMapsService
       req.params['destination'] = destination
     end
 
-    JSON.parse(response.body, symbolize_names: true)[:routes].first[:legs].first
+    JSON.parse(response.body, symbolize_names: true)[:routes].first
   end
 end

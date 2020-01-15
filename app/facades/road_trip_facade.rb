@@ -8,8 +8,10 @@ class RoadTripFacade
 
   def create_road_trip
     road_trip = get_road_trip(origin, destination)
-    set_arrival_forecast(road_trip)
-    road_trip
+    if road_trip
+      set_arrival_forecast(road_trip)
+      road_trip
+    end
   end
 
   private
@@ -17,7 +19,7 @@ class RoadTripFacade
   def get_road_trip(origin, destination)
     maps_service = GoogleMapsService.new
     directions_info = maps_service.get_directions_info(origin, destination)
-    RoadTrip.new(directions_info)
+    RoadTrip.new(directions_info[:legs].first) if directions_info
   end
 
   def set_arrival_forecast(road_trip)
