@@ -9,7 +9,7 @@ class RoadTrip
               :arrival_forecast
 
   def initialize(info)
-    @id = 1
+    @id = rand(10000)
     @origin = info[:start_address]
     @destination = info[:end_address]
     @end_lat = info[:end_location][:lat]
