@@ -7,7 +7,9 @@ class ForecastFacade
 
   def create_forecast
     geocode = get_geocode(location)
-    get_forecast(geocode.lat, geocode.long, geocode.address)
+    if geocode.lat
+      get_forecast(geocode.lat, geocode.long, geocode.address)
+    end
   end
 
   private
