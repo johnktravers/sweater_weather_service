@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Forecast API Endpoint' do
-  it 'can return a city\'s weather forecast' do
+  it "can return a city's weather forecast" do
+    stub_geocoding_api('denver,co', 'denver_geocode.json')
+    stub_dark_sky_api('39.7392358,-104.990251', 'denver_forecast.json')
+
     get '/api/v1/forecast?location=denver,co', headers: {
       'Content-Type' => 'application/json',
       'Accept' => 'application/json'

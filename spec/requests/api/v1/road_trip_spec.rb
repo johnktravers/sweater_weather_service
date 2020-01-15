@@ -6,8 +6,14 @@ RSpec.describe 'Road Trip API Endpoint' do
   end
 
   it 'can create a roadtrip for a user given a valid api key' do
+    time_now = Time.parse('2020-01-14 21:12:31 -0700')
+    allow(Time).to receive(:now).and_return(time_now)
+
+    stub_maps_api('Denver, CO', 'Pueblo, CO', 'denver_pueblo_trip.json')
+    stub_dark_sky_api('38.2542053,-104.6087488,1579068027', 'pueblo_forecast.json')
+
     req_body = {
-      'origin' => 'Denver,CO',
+      'origin' => 'Denver, CO',
       'destination' => 'Pueblo, CO',
       'api_key' => @user.api_key
     }.to_json
@@ -32,7 +38,7 @@ RSpec.describe 'Road Trip API Endpoint' do
 
   it 'displays an error if the api key is invalid' do
     req_body = {
-      'origin' => 'Denver,CO',
+      'origin' => 'Denver, CO',
       'destination' => 'Pueblo, CO',
             'api_key' => 'invalid_api_key'
     }.to_json
@@ -51,7 +57,7 @@ RSpec.describe 'Road Trip API Endpoint' do
 
   it 'displays an error if the api key is missing' do
     req_body = {
-      'origin' => 'Denver,CO',
+      'origin' => 'Denver, CO',
       'destination' => 'Pueblo, CO'
     }.to_json
     post '/api/v1/road_trip', params: req_body, headers: {

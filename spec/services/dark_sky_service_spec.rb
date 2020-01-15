@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe DarkSkyService, type: :service do
   it 'can retrieve forecast info given a latitude and longitude' do
+    stub_dark_sky_api('39.7392358,-104.990251', 'denver_forecast.json')
+
     service = DarkSkyService.new
     forecast_info = service.get_forecast_info(39.7392358, -104.990251)
 

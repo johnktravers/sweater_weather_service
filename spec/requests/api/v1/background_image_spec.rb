@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Background Image API Endpoint' do
   it 'returns the URL of an image for a given location' do
+    stub_unsplash_api('denver co', 'denver_background.json')
+
     get '/api/v1/backgrounds?location=denver,co', headers: {
       'Content-Type' => 'application/json',
       'Accept' => 'application/json'
@@ -20,6 +22,8 @@ RSpec.describe 'Background Image API Endpoint' do
   end
 
   it 'returns a default image if no image is found' do
+    stub_unsplash_api('sdkljhgakfjg', 'no_background.json')
+
     get '/api/v1/backgrounds?location=sdkljhgakfjg', headers: {
       'Content-Type' => 'application/json',
       'Accept' => 'application/json'
