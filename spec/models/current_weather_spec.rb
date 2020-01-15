@@ -16,9 +16,9 @@ RSpec.describe CurrentWeather, type: :model do
       timezone = TZInfo::Timezone.get('America/Denver')
       weather = CurrentWeather.new(info, timezone)
 
-      expect(weather.temp).to eq(54.32)
-      expect(weather.apparent_temp).to eq(48.29)
-      expect(weather.humidity).to eq('45.0%')
+      expect(weather.temp).to eq('54°')
+      expect(weather.apparent_temp).to eq('48°')
+      expect(weather.humidity).to eq('45%')
       expect(weather.visibility).to eq('2 miles')
       expect(weather.uv_index).to eq(uv_index)
     end
