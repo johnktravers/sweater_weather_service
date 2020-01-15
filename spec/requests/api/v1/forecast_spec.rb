@@ -57,4 +57,20 @@ RSpec.describe 'Forecast API Endpoint' do
     expect(forecast_info[:attributes][:hourly_weather][0][:time]).to eq('10 AM')
     expect(forecast_info[:attributes][:daily_weather][0][:time]).to eq('Wednesday, 01/15')
   end
+
+  it 'displays an error message if the lat and long cannot be found' do
+    stub_geocoding_api('asdkfgjalkbg', 'no_geocode.json')
+
+    get '/api/v1/forecast?location=asdkfgjalkbg', headers: {
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json'
+    }
+
+    expect(response.status).to eq(404)
+
+    error = JSON.parse(response.body, symbolize_names: true)[:errors][0]
+
+    expect(error[:status]).to eq('404 Not Found')
+    expect(error[:title]).to eq('Given location was not found. Please try again')
+  end
 end
